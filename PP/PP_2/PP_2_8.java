@@ -1,3 +1,6 @@
+// Wrote a program that produces as output what vaguely resmbles the Seattle Space Needle. Make it possible to change
+// the size of the figure.
+
 public class PP_2_8 {
     public static void main(String[] args) {
         final int size = 10;
