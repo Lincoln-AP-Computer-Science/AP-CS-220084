@@ -1,5 +1,4 @@
 public class PP_2_8 {
-
     public static void main(String[] args) {
         final int size = 10;
 
