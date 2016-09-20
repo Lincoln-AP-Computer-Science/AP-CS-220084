@@ -1,3 +1,6 @@
+// Write a program that produces as output the lyrics of the song, "There Was an Old Lady Who Swallowed a Fly," by
+// Simms Taback.
+
 public class PP_1_3 {
     String[] objs = {"fly", "spider", "bird", "cat", "dog", "cow"};
 
