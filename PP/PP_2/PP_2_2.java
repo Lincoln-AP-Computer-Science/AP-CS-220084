@@ -1,3 +1,5 @@
+// Write a program the produces [a specific pattern].
+
 public class PP_2_2 {
 
     public static void main(String[] args) {
