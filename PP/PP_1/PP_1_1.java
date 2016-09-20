@@ -1,4 +1,4 @@
-// Write a program to spell out MISSISSIPPI in block letters (one per line)
+// Write a program to spell out MISSISSIPPI in block letters (one per line).
 public class PP_1_1 {
     public static void main(String[] args) {
         PP_1_1 p = new PP_1_1();
