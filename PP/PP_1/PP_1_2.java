@@ -1,3 +1,4 @@
+// Write a program that prints similar letters to three people of your choice.
 public class PP_1_2 {
     public static void main(String[] args) {
         PP_1_2 p = new PP_1_2();
