@@ -2,6 +2,7 @@
 // Simms Taback.
 
 public class PP_1_3 {
+    
     String[] objs = {"fly", "spider", "bird", "cat", "dog", "cow"};
 
     public static void main(String[] args) {
