@@ -1,4 +1,7 @@
+// Write a program that produces as output the words of "The House That Jack Built."
+
 public class PP_1_5 {
+    
     String[] objs = {"the house that Jack built.\n", "the malt", "the rat,", "the cat,", "the dog,", "the cow with the crumpled horn,", "the maiden all forlorn,"};
     String[] verbs = {"lay in", "ate", "killed", "worried", "tossed", "milked"};
 
