@@ -1,4 +1,7 @@
+// Write a progam that produces [stairs]. Make it possible to change the number of stairs in the figure.
+
 public class PP_2_5 {
+    
     public static void main(String[] args) {
         System.out.println("test");
         final int stairs = 5;
