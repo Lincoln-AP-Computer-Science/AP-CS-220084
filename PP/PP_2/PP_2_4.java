@@ -1,4 +1,7 @@
+// Write a program that produces an hourglass figure as its output.
+
 public class PP_2_4 {
+    
     public static void main(String[] args) {
         for(int i = 0; i < 11; i++) {
             if(i == 0 || i == 10) {
