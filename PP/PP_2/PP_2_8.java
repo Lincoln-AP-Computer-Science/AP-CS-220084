@@ -5,22 +5,23 @@ public class PP_2_8 {
     final int SIZE = 10;
     
     public static void main(String[] args) {
+        PP_2_8 p = new PP_2_8();
 
-        for (int i = 0; i < SIZE + 1; i++) {
+        for (int i = 0; i < p.SIZE + 1; i++) {
             System.out.print(" ");
         }
         System.out.print("+");
-        for (int i = 0; i < SIZE * 3; i++) {
+        for (int i = 0; i < p.SIZE * 3; i++) {
             System.out.print("-");
         }
         System.out.println("+");
 
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE - i; j++) {
+        for (int i = 0; i < p.SIZE; i++) {
+            for (int j = 0; j < p.SIZE - i; j++) {
                 System.out.print(" ");
             }
             System.out.print("/");
-            for (int j = 0; j < SIZE - (i + 1); j++) {
+            for (int j = 0; j < p.SIZE - (i + 1); j++) {
                 System.out.print("   ");
             }
             for (int j = 0; j < i + 1; j++) {
@@ -37,39 +38,39 @@ public class PP_2_8 {
         }
 
         System.out.print("+");
-        for (int i = 0; i < SIZE * 3; i++) {
+        for (int i = 0; i < p.SIZE * 3; i++) {
             System.out.print("-");
         }
         System.out.print("+");
-        for (int i = 0; i < SIZE; i++) {
+        for (int i = 0; i < p.SIZE; i++) {
             System.out.print("/");
         }
         System.out.println();
 
-        for (int i = 0; i < SIZE / 2; i++) {
+        for (int i = 0; i < p.SIZE / 2; i++) {
             System.out.print("|");
-            if (SIZE * 3 > 22) {
-                for (int j = 0; j < (SIZE * 3 - 22) / 2; j++) {
+            if (p.SIZE * 3 > 22) {
+                for (int j = 0; j < (p.SIZE * 3 - 22) / 2; j++) {
                     System.out.print(" ");
                 }
                 System.out.print("Building Java Programs");
-                for (int j = 0; j < (SIZE * 3 - 22) / 2; j++) {
+                for (int j = 0; j < (p.SIZE * 3 - 22) / 2; j++) {
                     System.out.print(" ");
                 }
             } else {
-                for (int j = 0; j < SIZE * 3; j++) {
+                for (int j = 0; j < p.SIZE * 3; j++) {
                     System.out.print(" ");
                 }
             }
             System.out.print("|");
-            for (int j = 0; j < SIZE / 2 - i; j++) {
+            for (int j = 0; j < p.SIZE / 2 - i; j++) {
                 System.out.print("//");
             }
             System.out.println();
         }
 
         System.out.print("+");
-        for (int i = 0; i < SIZE * 3; i++) {
+        for (int i = 0; i < p.SIZE * 3; i++) {
             System.out.print("-");
         }
         System.out.print("+");
