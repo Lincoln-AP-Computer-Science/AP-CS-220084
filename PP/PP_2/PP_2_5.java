@@ -17,23 +17,21 @@ public class PP_2_5 {
                         for (int k = 0; k < 5 * i; k++) {
                             System.out.print(" ");
                         }
-                        System.out.println("*");
                         break;
                     case 1:
                         System.out.print(" /|\\ *");
-                        for (int k = 0; k < 5 * (i + 1); k++) {
-                            System.out.print(" ");
-                        }
-                        System.out.println("*");
                         break;
                     case 2:
                         System.out.print(" / \\ *");
-                        for (int k = 0; k < 5 * (i + 1); k++) {
-                            System.out.print(" ");
-                        }
-                        System.out.println("*");
+                        
                         break;
                 }
+                if (j != 0) {
+                    for (int k = 0; k < 5 * (i + 1); k++) {
+                        System.out.print(" ");
+                    }
+                }
+                System.out.println("*");
             }
         }
         for (int i = 0; i < (p.STAIRS + 1) * 5 + 2; i++) {
