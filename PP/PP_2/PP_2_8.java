@@ -50,12 +50,22 @@ public class PP_2_8 {
         for (int i = 0; i < p.SIZE / 2; i++) {
             System.out.print("|");
             if (p.SIZE * 3 > 22) {
-                for (int j = 0; j < (p.SIZE * 3 - 22) / 2; j++) {
-                    System.out.print(" ");
-                }
-                System.out.print("Building Java Programs");
-                for (int j = 0; j < (p.SIZE * 3 - 22) / 2; j++) {
-                    System.out.print(" ");
+                if (p.SIZE % 2 == 0) {
+                    for (int j = 0; j < (p.SIZE * 3 - 22) / 2; j++) {
+                        System.out.print(" ");
+                    }
+                    System.out.print("Building Java Programs");
+                   for (int j = 0; j < (p.SIZE * 3 - 22) / 2; j++) {
+                       System.out.print(" ");
+                    }
+                } else {
+                    for (int j = 0; j < (p.SIZE * 3 - 22) / 2; j++) {
+                        System.out.print(" ");
+                    }
+                    System.out.print("Building Java Programs");
+                   for (int j = 0; j < (p.SIZE * 3 - 22) / 2 + 1; j++) {
+                       System.out.print(" ");
+                    }
                 }
             } else {
                 for (int j = 0; j < p.SIZE * 3; j++) {
