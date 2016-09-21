@@ -1,4 +1,4 @@
-// Wrote a program that produces as output what vaguely resmbles a textbook.. Make it possible to change
+// Wrote a program that produces as output what vaguely resmbles a textbook. Make it possible to change
 // the size of the figure.
 
 public class PP_2_8 {
