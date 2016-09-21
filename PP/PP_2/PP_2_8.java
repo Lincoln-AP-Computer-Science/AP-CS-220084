@@ -2,9 +2,9 @@
 // the size of the figure.
 
 public class PP_2_8 {
+    final int SIZE = 10;
     
     public static void main(String[] args) {
-        final int SIZE = 10;
 
         for (int i = 0; i < SIZE + 1; i++) {
             System.out.print(" ");
