@@ -1,13 +1,14 @@
 // Write a progam that produces [stairs]. Make it possible to change the number of stairs in the figure.
 
 public class PP_2_5 {
+    final int STAIRS = 5;
     
     public static void main(String[] args) {
-        System.out.println("test");
-        final int stairs = 5;
-        for (int i = 0; i < stairs; i++) {
+        PP_2_5 p = new PP_2_5();
+        
+        for (int i = 0; i < p.STAIRS; i++) {
             for (int j = 0; j < 3; j++) {
-                for (int k = 0; k < 5 * (stairs - (i + 1)); k++) {
+                for (int k = 0; k < 5 * (p.STAIRS - (i + 1)); k++) {
                     System.out.print(" ");
                 }
                 switch (j) {
@@ -35,7 +36,7 @@ public class PP_2_5 {
                 }
             }
         }
-        for (int i = 0; i < (stairs + 1) * 5 + 2; i++) {
+        for (int i = 0; i < (p.STAIRS + 1) * 5 + 2; i++) {
             System.out.print("*");
         }
     }
