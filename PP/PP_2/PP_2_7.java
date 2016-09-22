@@ -1,3 +1,5 @@
+// Write a program theat produces [what vaguely resembles the Seattle Space Needle].
+
 public class PP_2_7 {
     final int SIZE = 4;
     
