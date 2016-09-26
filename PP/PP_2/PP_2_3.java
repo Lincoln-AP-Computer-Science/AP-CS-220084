@@ -1,94 +1,97 @@
 // Write a program that produces [a specific pattern].
 
 public class PP_2_3 {
+    int size = 8;
 
     public static void main(String[] args) {
-        System.out.print("+");
-        for (int i = 0; i < 9; i++) {
-            System.out.print("-");
+        PP_2_3 p = new PP_2_3();
+        
+        if (p.size % 2 == 1) {
+            p.size -= 1;
         }
-        System.out.println("+");
+        
+        p.divider();
 
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < p.size; i++) {
             System.out.print("|");
-            if (i < 4) {
-                for (int j = 0; j < 4 - i; j++) {
+            if (i < p.size / 2) {
+                for (int j = 0; j < p.size / 2 - i; j++) {
                     System.out.print(" ");
                 }
                 for (int j = 0; j < i; j++) {
                     System.out.print("/");
                 }
             } else {
-                for (int j = 0; j < i - 3; j++) {
+                for (int j = 0; j < i - (p.size / 2 - 1); j++) {
                     System.out.print(" ");
                 }
-                for (int j = 0; j < 7 - i; j++) {
+                for (int j = 0; j < (p.size - 1) - i; j++) {
                     System.out.print("\\");
                 }
             }
             System.out.print("*");
-            if (i < 4) {
+            if (i < p.size / 2) {
                 for (int j = 0; j < i; j++) {
                     System.out.print("\\");
                 }
-                for (int j = 0; j < 4 - i; j++) {
+                for (int j = 0; j < p.size / 2 - i; j++) {
                     System.out.print(" ");
                 }
             } else {
-                for (int j = 0; j < 7 - i; j++) {
+                for (int j = 0; j < (p.size - 1) - i; j++) {
                     System.out.print("/");
                 }
-                for (int j = 0; j < i - 3; j++) {
+                for (int j = 0; j < i - (p.size / 2 - 1); j++) {
                     System.out.print(" ");
                 }
             }
             System.out.println("|");
         }
 
-        System.out.print("+");
-        for (int i = 0; i < 9; i++) {
-            System.out.print("-");
-        }
-        System.out.println("+");
-
-        for (int i = 0; i < 8; i++) {
+        p.divider();
+        
+        for (int i = 0; i < p.size; i++) {
             System.out.print("|");
-            if (i < 4) {
+            if (i < p.size / 2) {
                 for (int j = 0; j < i + 1; j++) {
                     System.out.print(" ");
                 }
-                for (int j = 0; j < 3 - i; j++) {
+                for (int j = 0; j < (p.size / 2 - 1) - i; j++) {
                     System.out.print("\\");
                 }
             } else {
-                for (int j = 0; j < 8 - i; j++) {
+                for (int j = 0; j < p.size - i; j++) {
                     System.out.print(" ");
                 }
-                for (int j = 0; j < i - 4; j++) {
+                for (int j = 0; j < i - p.size / 2; j++) {
                     System.out.print("/");
                 }
             }
             System.out.print("*");
-            if (i < 4) {
-                for (int j = 0; j < 3 - i; j++) {
+            if (i < p.size / 2) {
+                for (int j = 0; j < (p.size / 2 - 1) - i; j++) {
                     System.out.print("/");
                 }
                 for (int j = 0; j < i + 1; j++) {
                     System.out.print(" ");
                 }
             } else {
-                for (int j = 0; j < i - 4; j++) {
+                for (int j = 0; j < i - p.size / 2; j++) {
                     System.out.print("\\");
                 }
-                for (int j = 0; j < 8 - i; j++) {
+                for (int j = 0; j < p.size - i; j++) {
                     System.out.print(" ");
                 }
             }
             System.out.println("|");
         }
 
+        p.divider();
+    }
+    
+    public void divider() {
         System.out.print("+");
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < size + 1; i++) {
             System.out.print("-");
         }
         System.out.println("+");
