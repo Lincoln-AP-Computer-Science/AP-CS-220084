@@ -8,7 +8,11 @@ public class PP_3_2 {
 
     public void interest(int inital, int deposit, double interest) {
         double balance = inital;
-        System.out.println("+---------------------------------------------------------------------------------------+");
+        System.out.print("+");
+        for(int i = 0; i < 19; i++) {
+            System.out.print("----");
+        }
+        System.out.println("+");
         System.out.println("|\tYear\t|\tInterest\t|\tNew Deposit\t|\tNew Balance\t|");
         for (int i = 0; i <= 25; i++) {
             System.out.print("|\t" + i + "\t");
@@ -23,6 +27,10 @@ public class PP_3_2 {
             balance += deposit;
             balance += inital * (1 + interest / 100);
         }
-        System.out.println("+---------------------------------------------------------------------------------------+");
+         System.out.print("+");
+        for(int i = 0; i < 19; i++) {
+            System.out.print("----");
+        }
+        System.out.println("+");
     }
 }
