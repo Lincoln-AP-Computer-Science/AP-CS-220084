@@ -5,24 +5,37 @@ public class ExerciseFour {
     public static void main(String[] args) {
         ExerciseFour ef = new ExerciseFour();
         
+        String[] names = {
+            "Baltimare",
+            "Manehattan",
+            "Los Pegasus",
+            "Neighagra Falls",
+            "Badlands",
+            "Ponyville"
+        };
+        
         int[][] points = {
-                {0, 0}, 
-                {3, 4}, 
-                {3, 0}
+                {29, 16},
+                {34, 8},
+                {6, 19},
+                {22, 7},
+                {25, 24},
+                {16, 14}
             };
         
-        System.out.print(ef.calculate(points));
+        ef.calculate(names, points);
     }
     
-    public double distance(int x1, int y1, int x2, int y2) {
+    public void distance(int x1, int y1, int x2, int y2) {
         return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
     
-    public double calculate(int[][] allPoints) {
+    public String calculate(String[] places, int[][] allPoints) {
         int[][] points = allPoints;
         double[][] dist = new double[points.length][points.length];
         int x1, y1, x2, y2;
         double longestDistance = dist[0][0];
+        String[] furthest = new String[2];
 //         for(int i = 0; i < points.length; i++) {
 //             System.out.println(Arrays.toString(points[i]));
 //         }
@@ -45,10 +58,12 @@ public class ExerciseFour {
             for (int l = 0; l < dist[0].length; l++) {
                 if (dist[k][l] > longestDistance) {
                     longestDistance = dist[k][l];
+                    furthest[0] = points[k];
+                    furthest[1] = points[l];
                 }
             }
         }
         
-        return longestDistance;
+        System.out.println("The longest distance is " + longestDistance + " between " + furthest[0] + " and " + furthest[1]);
     }
 }
