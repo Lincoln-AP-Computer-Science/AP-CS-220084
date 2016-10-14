@@ -20,7 +20,7 @@ public class ExerciseFour {
     
     public double calculate(int[][] allPoints) {
         int[][] points = allPoints;
-        double[][] dist = new double[points.length - 1][points.length];
+        double[][] dist = new double[points.length][points.length];
         int x1, y1, x2, y2;
         double longestDistance = dist[0][0];
 //         for(int i = 0; i < points.length; i++) {
@@ -35,10 +35,8 @@ public class ExerciseFour {
                 if (j != i) {
                     x2 = points[j][0];
                     y2 = points[j][1];
-                    System.out.println("i: " + i + "; j: " + j);
-                    for (int k = 0; k < dist.length; k++) {
-                        dist[k][j] = distance(x1, y1, x2, y2);
-                    }
+                    
+                    dist[i][j] = distance(x1, y1, x2, y2);
                 }
             }
         }
