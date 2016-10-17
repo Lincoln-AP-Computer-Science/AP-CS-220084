@@ -15,13 +15,13 @@ public class ExerciseFour {
         };
         
         int[][] points = {
-                {29, 16},
-                {34, 8},
-                {6, 19},
-                {22, 7},
-                {25, 24},
-                {16, 14}
-            };
+            {29, 16},
+            {34, 8},
+            {6, 19},
+            {22, 7},
+            {25, 24},
+            {16, 14}
+        };
         
         System.out.println(ef.calculate(names, points));
     }
@@ -30,40 +30,27 @@ public class ExerciseFour {
         return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
     
-    public String calculate(String[] places, int[][] allPoints) {
-        int[][] points = allPoints;
+    public String calculate(String[] places, int[][] points) {
         double[][] dist = new double[points.length][points.length];
-        int x1, y1, x2, y2;
-        double longestDistance = dist[0][0];
         String[] furthest = new String[2];
-//         for(int i = 0; i < points.length; i++) {
-//             System.out.println(Arrays.toString(points[i]));
-//         }
-        double[] distances = new double[points.length];
+        
         for (int i = 0; i < points.length; i++) {
-            x1 = points[i][0];
-            y1 = points[i][1];
-            
             for (int j = 0; j < points.length; j++) {
-                if (j != i) {
-                    x2 = points[j][0];
-                    y2 = points[j][1];
-                    
-                    dist[i][j] = distance(x1, y1, x2, y2);
-                }
+                dist[i][j] = distance(points[i][0], points[i][1], points[j][0], points[j][1]);
             }
         }
         
+        double longestDistance = -1;
         for (int k = 0; k < dist.length; k++) {
             for (int l = 0; l < dist[0].length; l++) {
                 if (dist[k][l] > longestDistance) {
                     longestDistance = dist[k][l];
-                    furthest[0] = Arrays.toString(points[k]);
-                    furthest[1] = Arrays.toString(points[l]);
+                    furthest[0] = places[k] + " at " + Arrays.toString(points[k]);
+                    furthest[1] = places[l] + " at " + Arrays.toString(points[l]);
                 }
             }
         }
         
-        return "The longest distance is " + longestDistance + " between " + furthest[0] + " and " + furthest[1];
+        return "The longest distance is " + longestDistance + " miles between " + furthest[0] + " and " + furthest[1];
     }
 }
