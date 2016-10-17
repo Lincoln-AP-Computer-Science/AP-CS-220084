@@ -23,10 +23,10 @@ public class ExerciseFour {
                 {16, 14}
             };
         
-        ef.calculate(names, points);
+        System.out.println(ef.calculate(names, points));
     }
     
-    public void distance(int x1, int y1, int x2, int y2) {
+    public double distance(int x1, int y1, int x2, int y2) {
         return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
     
@@ -58,12 +58,12 @@ public class ExerciseFour {
             for (int l = 0; l < dist[0].length; l++) {
                 if (dist[k][l] > longestDistance) {
                     longestDistance = dist[k][l];
-                    furthest[0] = points[k];
-                    furthest[1] = points[l];
+                    furthest[0] = Arrays.toString(points[k]);
+                    furthest[1] = Arrays.toString(points[l]);
                 }
             }
         }
         
-        System.out.println("The longest distance is " + longestDistance + " between " + furthest[0] + " and " + furthest[1]);
+        return "The longest distance is " + longestDistance + " between " + furthest[0] + " and " + furthest[1];
     }
 }
