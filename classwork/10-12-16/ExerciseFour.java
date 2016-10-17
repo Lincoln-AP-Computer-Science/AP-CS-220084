@@ -4,24 +4,29 @@ public class ExerciseFour {
     
     public static void main(String[] args) {
         ExerciseFour ef = new ExerciseFour();
+        Scanner sc = new Scanner(System.in);
         
-        String[] names = {
-            "Baltimare",
-            "Manehattan",
-            "Los Pegasus",
-            "Neighagra Falls",
-            "Badlands",
-            "Ponyville"
-        };
+        System.out.println("Input the number of locations to compare:");
+        int places = sc.nextInt();
+        String[] names = new String[places];
+        int[][] points = new int[places][2];
         
-        int[][] points = {
-            {29, 16},
-            {34, 8},
-            {6, 19},
-            {22, 7},
-            {25, 24},
-            {16, 14}
-        };
+        for (int i = 0; i < places; i++) {
+            System.out.println("Input a new location name:");
+            sc.nextLine();
+            names[i] = sc.nextLine();
+            System.out.println("Name the X coordinate of that location:");
+            points[i][0] = sc.nextInt();
+            System.out.println("Name the Y coordinate of that location:");
+            points[i][1] = sc.nextInt();
+        }
+        
+        // Baltimare: (29, 16)
+        // Manehattan: (34, 8)
+        // Los Pegasus: (6, 19)
+        // Neighagra Falls: (22, 7)
+        // Badlands: (25, 24)
+        // Ponyville: (16, 14)
         
         System.out.println(ef.calculate(names, points));
     }
