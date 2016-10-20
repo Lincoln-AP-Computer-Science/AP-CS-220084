@@ -1,4 +1,5 @@
 import java.util.*;
+import java.lang.*;
 
 public class ExerciseFour {
     
@@ -15,9 +16,9 @@ public class ExerciseFour {
             System.out.println("Input a new location name:");
             sc.nextLine();
             names[i] = sc.nextLine();
-            System.out.println("Name the X coordinate of that location:");
+            System.out.println("Input the X coordinate of that location:");
             points[i][0] = sc.nextInt();
-            System.out.println("Name the Y coordinate of that location:");
+            System.out.println("Input the Y coordinate of that location:");
             points[i][1] = sc.nextInt();
         }
         
@@ -56,6 +57,11 @@ public class ExerciseFour {
             }
         }
         
-        return "The longest distance is " + longestDistance + " miles between " + furthest[0] + " and " + furthest[1];
+        for (int i = 0; i < furthest.length; i++) {
+            furthest[i] = furthest[i].replace('[', '(');
+            furthest[i] = furthest[i].replace(']', ')');
+        }
+        
+        return "The longest distance is " + longestDistance + " miles between " + furthest[0] + " and " + furthest[1] + ".";
     }
 }
