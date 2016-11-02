@@ -8,7 +8,6 @@ public class PP_4_1 {
         
         int input = 0;
         
-        
         while (input < 1 || input > 1000) {
             System.out.println("Input a number between 1 and 1000 to convert to Roman Numerals:");
             input = sc.nextInt();
