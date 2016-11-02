@@ -4,21 +4,19 @@ public class PP_4_2 {
     
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int month = 0, day = 0, year = 0, leapYears, normalYears, daysSince;
-        boolean invalid = true;
-        String weekday;
-        int[] daysInMonths = {31, 0, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        int month = 0, day = 0, year = 0; // input values for month, day, and year. 
+        int daysSince = 0; // Counts days since 1/1/0001 (a monday)
+        boolean invalid = true; // Checks if the date is invalid
+        String weekday; // The day of the week at the end
+        int[] daysInMonths = {31, 0, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}; // Corresponds with months of the year
         
-        while (invalid) {
+        while (invalid) { // Accepts input and loops if the date invalid (Ignore mostly here)
             System.out.println("Input month, day, and year separated by spaces:");
             month = sc.nextInt();
             day = sc.nextInt();
             year = sc.nextInt();
             
-            if ((year % 100 == 0 || year % 4 != 0) && year % 400 != 0) {
-                daysInMonths[1] = 28;
-            }
-            else if (year % 4 == 0) {
+            if ((year % 100 != 0 && year % 4 == 0) || year % 400 == 0) {
                 daysInMonths[1] = 29;
             }
             
@@ -37,14 +35,19 @@ public class PP_4_2 {
             }
         }
         
-        leapYears = (year - 1) / 4;
-        normalYears = (year - 1) - leapYears;
-        
-        daysSince = normalYears * 365 + leapYears * 366;
-        for (int i = 1; i < month; i++) {
-            daysSince += daysInMonths[i - 1];
+        for (int i = 1; i < year; i++) { // Loop through all years since "year 1"
+            if ((i % 4 == 0 && i % 100 != 0) || i % 400 == 0) { // Special leap year rules
+                daysSince += 366; // Leap year has 366 days in a year
+            } else {
+                daysSince += 365; // Normal year has 365 days in a year
+            }
         }
-        daysSince += day - 1;
+        
+        for (int i = 1; i < month; i++) { // Loop through days of the month
+            daysSince += daysInMonths[i - 1]; // Add the days in each month
+        }
+        
+        daysSince += day - 1; // I honestly don't know why I have to subtract 1 but it works just go with it
         
         switch(daysSince % 7) {
             case 0: weekday = "Monday"; break;
