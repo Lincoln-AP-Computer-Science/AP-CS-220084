@@ -3,7 +3,6 @@ import java.util.*;
 public class PP_5_2 {
     
     public static void main(String[] args) {
-        PP_5_2 pp = new PP_5_2();
         Scanner sc = new Scanner(System.in);
         int fails_left = 6, letterCount, correct = 0;
         char[] letters_left = {
