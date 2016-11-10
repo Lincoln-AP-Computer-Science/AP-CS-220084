@@ -2,34 +2,73 @@ import java.util.*;
 
 public class RockPaperScissors {
     public static final int ROCK = 0, PAPER = 1, SCISSORS = 2;
+    public static final String[] OPTIONS = {"rock", "paper", "scissors"};
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
         RockPaperScissors rps = new RockPaperScissors();
-        String in;
-        
-        System.out.println("Rock, Paper, or Scissors?");
-        in = sc.next();
-        
-        switch (in.toLowerCase()) {
-            case "rock": rps.win(rps.ROCK); break;
-            case "paper": rps.win(rps.PAPER); break;
-            case "scissors": rps.win(rps.SCISSORS); break;
-            default: rps.win(rps.ROCK); break;
-        }
+        rps.run();
     }
     
-    public boolean win(int input) {
+    public void run() {
+        Scanner sc = new Scanner(System.in);
+        
+        System.out.println("Rock, Paper, or Scissors? (Type quit or exit to end the game)");
+        String input = sc.next().toLowerCase();
+        
+        for (int i = 0; i < OPTIONS.length; i++) {
+            if (input.equals(OPTIONS[i])) {
+                play(i);
+            }
+        }
+         
+        if (input.equals("quit") || input.equals("exit")) {
+            System.out.println("Ended.");
+            return;
+        }
+        
+        System.out.println("Invalid input.");
+        run();
+    }
+    
+    public void play(int input) {
         int computer = (int) (Math.random() * 3);
+        boolean playerWin = false;
         
-        System.out.println("Computer: " + computer);
+        System.out.println("Player: " + OPTIONS[input]);
+        System.out.println("Computer: " + OPTIONS[computer]);
         
-        switch (input) {
-            case ROCK: if (computer == SCISSORS) return true; break;
-            case PAPER: if (computer == ROCK) return true; break;
-            case SCISSORS: if (computer == PAPER) return true; break;
+        if (input == computer) {
+            System.out.println("It's a tie!");
+            run();
+            return;
+        }
+        
+        if (input == ROCK) {
+            if (computer == PAPER) {
+                playerWin = false;
+            } else if (computer == SCISSORS) {
+                playerWin = true;
+            }
+        } else if (input == PAPER) {
+            if (computer == ROCK) {
+                playerWin = true;
+            } else if (computer == SCISSORS) {
+                playerWin = false;
+            }
+        } else if (input == SCISSORS) {
+            if (computer == ROCK) {
+                playerWin = false; 
+            } else if (computer == PAPER) {
+                playerWin = true;
+            }
+        }
+        
+        if (playerWin) {
+            System.out.println("The player wins!");
+        } else {
+            System.out.println("The computer wins!");            
         }
             
-        return false;
+        run();
     }
 }
