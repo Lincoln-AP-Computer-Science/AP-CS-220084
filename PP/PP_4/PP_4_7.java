@@ -10,7 +10,9 @@ public class PP_4_7 {
         System.out.println("Input triangle size:");
         input = sc.nextInt();
         if (input > 13) {
-            System.out.println("Warning: Any size greater than 13 will make each number hard to identify.\nPress enter to continue");
+            System.out.println("Warning: Any size greater than 13 " +
+            "will make each number hard to identify.\n" +
+            "Press enter to continue");
             sc.nextLine();
             sc.nextLine();
         }
