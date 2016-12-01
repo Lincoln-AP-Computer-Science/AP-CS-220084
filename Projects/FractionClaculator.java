@@ -23,6 +23,7 @@ public class FractionCalculator {
     }
     
     public String add(String operand1, String operand2) {
+        
         return new String();
     }
     
@@ -64,27 +65,12 @@ public class FractionCalculator {
     }
     
     public String parseOperand(String operand) {
-        String fraction;
+        int[] components = getComponents(operand);
         int wholeNumber, numerator, denominator;
-        int fractionBar, underline = operand.indexOf('_');
         
-        if (underline >= 0) {
-            wholeNumber = Integer.parseInt(operand.substring(0, underline));
-            fraction = operand.substring(underline + 1);
-        } else {
-            wholeNumber = 0;
-            fraction = operand;
-        }
-        
-        fractionBar = fraction.indexOf('/');
-        
-        if (fractionBar >= 0) {
-            numerator = Integer.parseInt(fraction.substring(0, fractionBar));
-            denominator = Integer.parseInt(fraction.substring(fractionBar + 1));
-        } else {
-            numerator = Integer.parseInt(fraction);
-            denominator = 1;
-        }
+        wholeNumber = components[0];
+        numerator = components[1];
+        denominator = components[2];
         
         wholeNumber += (int) (numerator / denominator);
         numerator %= denominator;
@@ -110,19 +96,39 @@ public class FractionCalculator {
             }
         }
         
-        System.out.println(gcd);
-        System.out.println(numerator / gcd);
-        System.out.println(denominator / gcd);
-        
         numerator /= gcd;
         denominator /= gcd;
-        
-        
         
         if (numerator != 0) {
             return wholeNumber + "_" + numerator + "/" + denominator;
         } else {
             return Integer.toString(wholeNumber);
         }
+    }
+    
+    public int[] getComponents(String operand) {
+        String fraction;
+        int wholeNumber, numerator, denominator;
+        int fractionBar, underline = operand.indexOf('_');
+        
+        if (underline >= 0) {
+            wholeNumber = Integer.parseInt(operand.substring(0, underline));
+            fraction = operand.substring(underline + 1);
+        } else {
+            wholeNumber = 0;
+            fraction = operand;
+        }
+        
+        fractionBar = fraction.indexOf('/');
+        
+        if (fractionBar >= 0) {
+            numerator = Integer.parseInt(fraction.substring(0, fractionBar));
+            denominator = Integer.parseInt(fraction.substring(fractionBar + 1));
+        } else {
+            numerator = Integer.parseInt(fraction);
+            denominator = 1;
+        }
+        
+        return new int[] {wholeNumber, numerator, denominator};
     }
 }
