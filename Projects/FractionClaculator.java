@@ -1,59 +1,128 @@
 import java.util.*;
 
 public class FractionCalculator {
-    public final char[] operators = {'*', '/', '+', '-'};
 
-    public static void main(String[] args) {
+    public static void main (String[] args) {
         FractionCalculator fc = new FractionCalculator();
         Scanner sc = new Scanner(System.in);
-        String input;
+        String equation, answer;
         
-        while (true) {
-            System.out.print("Input an equation: ");
-            input = sc.nextLine();
-            
-            if (input.equalsIgnoreCase("quit")) break;
-            
-            double result = fc.calculate(input);
-            System.out.println(input + " = " + result);
-        }
+        System.out.println("Input an equation:");
+        equation = sc.nextLine();
         
-        System.out.println("Thank you for using my fractional calculator.");
+        answer = fc.calculate(equation);
+        System.out.print("The ouput is " + answer);
     }
     
-    public double calculate(String input) {
-        input = input.replace(" ", "");
-        char operator = ' ';
-        double num1, num2;
-        int opIndex = input.indexOf(operator);
+    public String multiply(String operand1, String operand2) {
+        return new String();
+    }
+    
+    public String divide(String operand1, String operand2) {
+        return new String();
+    }
+    
+    public String add(String operand1, String operand2) {
+        return new String();
+    }
+    
+    public String subtract(String operand1, String operand2) {
+        return new String();
+    }
+
+    public String calculate(String expression){
+        int firstBlank = expression.indexOf(' ');
+        String operand1, operand2;
+        String parsed1, parsed2;
+        char operator;
         
-        for (int i = 0; i < input.length(); i++) {
-            for (char op : operators) {
-                if (input.charAt(i) == op) {
-                    operator = op;
-                    opIndex = input.indexOf(operator);
-                    break;
+        if (firstBlank >= 0) {
+            operand1 = expression.substring(0, firstBlank);
+            operand2 = expression.substring(firstBlank + 3);
+            operator = expression.charAt(firstBlank + 1);
+            
+            parsed2 = parseOperand(operand2);
+            
+            switch (operator) {
+                case '*':
+                case '/':
+                case '+':
+                case '-':
+            }
+            
+        } else {
+            operand1 = expression;
+            operand2 = "0";
+            operator = ' ';
+            
+            parsed2 = "";
+        }
+        
+        parsed1 = parseOperand(operand1);
+        
+        return parsed1 + operator + parsed2;
+    }
+    
+    public String parseOperand(String operand) {
+        String fraction;
+        int wholeNumber, numerator, denominator;
+        int fractionBar, underline = operand.indexOf('_');
+        
+        if (underline >= 0) {
+            wholeNumber = Integer.parseInt(operand.substring(0, underline));
+            fraction = operand.substring(underline + 1);
+        } else {
+            wholeNumber = 0;
+            fraction = operand;
+        }
+        
+        fractionBar = fraction.indexOf('/');
+        
+        if (fractionBar >= 0) {
+            numerator = Integer.parseInt(fraction.substring(0, fractionBar));
+            denominator = Integer.parseInt(fraction.substring(fractionBar + 1));
+        } else {
+            numerator = Integer.parseInt(fraction);
+            denominator = 1;
+        }
+        
+        wholeNumber += (int) (numerator / denominator);
+        numerator %= denominator;
+        
+        double n, d;
+        int gcd = 1;
+        
+        if (numerator >= denominator) {
+            for (int i = 1; i <= denominator; i++) {
+                n = (double) numerator / i;
+                d = (double) denominator / i;
+                if ((int) n == numerator / i && (int) d == denominator / i) {
+                    gcd = i;
+                }
+            }
+        } else {
+            for (int i = 1; i <= numerator; i++) {
+                n = (double) numerator / i;
+                d = (double) denominator / i;
+                if (n == (double) (numerator / i) && d == (double) (denominator / i)) {
+                    gcd = i;
                 }
             }
         }
         
-        if (opIndex <= 0) {
-            try {
-                return Integer.parseInt(input);
-            } catch (Exception e) {
-                return 0;
-            }
-        }
+        System.out.println(gcd);
+        System.out.println(numerator / gcd);
+        System.out.println(denominator / gcd);
         
-        num1 = Integer.parseInt(input.substring(0, opIndex));
-        num2 = Integer.parseInt(input.substring(opIndex + 1));
+        numerator /= gcd;
+        denominator /= gcd;
         
-        switch (operator) {
-            case '*': return num1 * num2;
-            case '/': return num1 / num2;
-            case '+': return num1 + num2;
-            case '-': return num1 - num2;
-            default: return 0;
+        
+        
+        if (numerator != 0) {
+            return wholeNumber + "_" + numerator + "/" + denominator;
+        } else {
+            return Integer.toString(wholeNumber);
         }
     }
 }
