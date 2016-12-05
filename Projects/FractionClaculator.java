@@ -11,25 +11,19 @@ public class FractionCalculator {
             System.out.println("Input an expression or type QUIT to quit:");
             equation = sc.nextLine();
             
-            if (equation.equals("QUIT")) {
-                break;
-            }
+            if (equation.equals("QUIT")) break;
             
             answer = fc.calculate(equation);
-            if (answer != "FAIL") {
-                System.out.println("The ouput is " + answer);
-            } else {
-                System.out.println("Invalid expression!");
-            }
+            
+            if (answer != "FAIL") System.out.println("The ouput is " + answer);
+            else System.out.println("Invalid expression!");
         }
     }
     
     public int[] improperFraction(int[] components) {
         int[] output = new int[2];
         boolean isNegative = false;
-        for (int i : components) {
-            if(i < 0) isNegative = true;
-        }
+        for (int i : components) if(i < 0) isNegative = true;
         
         output[0] = Math.abs(components[0] * components[2]) + components[1];
         output[1] = Math.abs(components[2]);
@@ -38,57 +32,63 @@ public class FractionCalculator {
         return output;
     }
     
+    public int[] improperFraction(String operand) {
+        return improperFraction(getComponents(operand));
+    }
+    
     public String multiply(String operand1, String operand2) {
-        String parsed1, parsed2;
-        int[] components1, components2;
+        int[] output = new int[2];
+        String[] parsed = new String[2], operand = {operand1, operand2};
+        int[][] components = new int[2][2];
         
-        parsed1 = parseFraction(operand1);
-        parsed2 = parseFraction(operand2);
+        for (int i = 0; i < 2; i++) {
+            parsed[i] = parseFraction(operand[i]);
+            components[i] = improperFraction(parsed[i]);
+        }
         
-        components1 = improperFraction(getComponents(parsed1));
-        components2 = improperFraction(getComponents(parsed2));
+        for (int i = 0, j = 0; i < 2; i++) output[i] = components[0][i] * components[1][i];
         
-        return parseFraction((components1[0] * components2[0]) + "/" + (components1[1] * components2[1]));
+        return parseFraction(output[0] + "/" + output[1]);
     }
     
     public String divide(String operand1, String operand2) {
-        String parsed1, parsed2;
-        int[] components2;
+        String[] parsed = new String[2], operand = {operand1, operand2};
+        int[] components;
         
-        components2 = improperFraction(getComponents(operand2));
+        components = improperFraction(operand[1]);
         
-        parsed1 = parseFraction(operand1);
-        parsed2 = parseFraction(components2[1] + "/" + components2[0]);
+        parsed[0] = parseFraction(operand[0]);
+        parsed[1] = parseFraction(components[1] + "/" + components[0]);
         
-        return multiply(parsed1, parsed2);
+        return multiply(parsed[0], parsed[1]);
+    }
+    
+    public int[] crossMultiply(String operand1, String operand2) {
+        String[] parsed = new String[2], operand = {operand1, operand2};
+        int[][] components = new int[2][2];
+        int[] n = {1, 1};
+        int d = 1;
+        
+        for (int i = 0; i < 2; i++)  components[i] = improperFraction(operand[i]);
+        
+        for (int i = 0; i < 2; i++) {
+            n[0] *= components[i][i];
+            d *= components[i][1];
+        }
+        
+        for (int i = 0, j = 1; i < 2 && j >= 0; i++, j--) n[1] *= components[j][i];
+        
+        return new int[] {n[0], n[1], d};
     }
     
     public String add(String operand1, String operand2) {
-        String parsed1, parsed2;
-        int[] components1, components2;
-        int numerator, denominator;
-        
-        components1 = improperFraction(getComponents(operand1));
-        components2 = improperFraction(getComponents(operand2));
-        
-        numerator = components1[0] * components2[1] + components2[0] * components1[1];
-        denominator = components1[1] * components2[1];
-        
-        return parseFraction(numerator + "/" + denominator);
+        int[] output = crossMultiply(operand1, operand2);
+        return parseFraction((output[0] + output[1]) + "/" + output[2]);
     }
     
     public String subtract(String operand1, String operand2) {
-        String parsed1, parsed2;
-        int[] components1, components2;
-        int numerator, denominator;
-        
-        components1 = improperFraction(getComponents(operand1));
-        components2 = improperFraction(getComponents(operand2));
-        
-        numerator = components1[0] * components2[1] - components2[0] * components1[1];
-        denominator = components1[1] * components2[1];
-        
-        return parseFraction(numerator + "/" + denominator);
+        int[] output = crossMultiply(operand1, operand2);
+        return parseFraction((output[0] - output[1]) + "/" + output[2]);
     }
 
     public String calculate(String expression){
@@ -109,57 +109,46 @@ public class FractionCalculator {
                 case '-': answer = subtract(operand1, operand2); break;
             }
             
-        } else {
-            return "FAIL";
-        }
+        } else return "FAIL";
         
         return answer;
+    }
+    
+    public int gcd(int a, int b) {
+        int greater, lesser, output = 1;
+        
+        if (a >= b) {
+            greater = a;
+            lesser = b;
+        } else {
+            greater = b;
+            lesser = a;
+        }
+        
+        for (int i = 1; i <= lesser; i++) {
+            if ((double) (lesser / i) % 1 == 0 && (double) (greater / i) % 1 == 0) output = i;
+        }
+        
+        return output;
     }
     
     public String parseFraction(String operand) {
         String output;
         int[] components = getComponents(operand);
-        int wholeNumber, numerator, denominator;
         boolean isNegative = false;
         
-        wholeNumber = components[0];
-        numerator = components[1];
-        denominator = components[2];
-        
-        if (wholeNumber < 0 || numerator < 0 || denominator < 0) {
-            isNegative = true;
+        for (int i = 0; i < components.length; i++) {
+            if (components[i] < 0) {
+                isNegative = true;
+            }
+            components[i] = Math.abs(components[i]);
         }
         
-        wholeNumber = Math.abs(wholeNumber);
-        numerator = Math.abs(numerator);
-        denominator = Math.abs(denominator);
+        components[0] += (int) (components[1] / components[2]);
+        components[1] %= components[2];
         
-        wholeNumber += (int) (numerator / denominator);
-        numerator %= denominator;
-        
-        double n, d;
-        int gcd = 1;
-        
-        if (numerator >= denominator) {
-            for (int i = 1; i <= denominator; i++) {
-                n = (double) numerator / i;
-                d = (double) denominator / i;
-                if ((int) n == numerator / i && (int) d == denominator / i) {
-                    gcd = i;
-                }
-            }
-        } else {
-            for (int i = 1; i <= numerator; i++) {
-                n = (double) numerator / i;
-                d = (double) denominator / i;
-                if (n == (double) (numerator / i) && d == (double) (denominator / i)) {
-                    gcd = i;
-                }
-            }
-        }
-        
-        numerator /= gcd;
-        denominator /= gcd;
+        components[1] /= gcd(components[1], components[2]);
+        components[2] /= gcd(components[1], components[2]);
         
         if (isNegative) {
             output = "-";
@@ -167,13 +156,17 @@ public class FractionCalculator {
             output = "";
         }
         
-        if (denominator != 0) {
-            if (wholeNumber != 0) {
-                output += Integer.toString(wholeNumber) + "_";
+        if (components[2] != 0) {
+            if (components[0] != 0) {
+                output += Integer.toString(components[0]);
             }
             
-            if (numerator != 0) {
-                output += numerator + "/" + denominator;
+            if (components[0] != 0 && components[1] != 0) {
+                output += "_";
+            }
+            
+            if (components[1] != 0) {
+                output += components[1] + "/" + components[2];
             }
             
             return output;
