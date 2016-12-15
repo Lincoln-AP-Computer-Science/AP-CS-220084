@@ -44,39 +44,43 @@ public class PolynomialCalculator {
         output = new String[degree + 1];
         
         int start, end = 0, index = 0;
+        int counter = 0;
         boolean isNegative = false;
         while (toParse.length() > 0) {
             if (toParse.indexOf('+') > 0) {
                 end = toParse.indexOf('+');
             } else if (toParse.indexOf('-') > 0) {
                 end = toParse.indexOf('-');
-                isNegative = true;
             } else {
                 end = toParse.length();
             }
             
             temp = toParse.substring(0, end);
-            for (int i = 0; i < degree + 1; i++) {
+            for (int i = 2; i < degree + 1; i++) {
                 int tempDeg = Character.getNumericValue(temp.charAt(temp.indexOf('^') + 1));
-                if (isNegative) temp = "-" + temp;
-                isNegative = false;
-                if (temp.indexOf('^') > -1 && tempDeg == i && i >= 2) {
+                if (temp.indexOf('^') > -1 && tempDeg == i) {
                     output[i] = temp;
-                } else if (temp.indexOf(variable) > -1 && temp.indexOf('^') == -1) {
+                    temp = null;
+                }
+            }
+            if (temp != null) {
+                if (temp.indexOf(variable) > -1 && temp.indexOf('^') == -1) {
                     output[1] = temp;
                 } else {
                     output[0] = temp;
                 }
+                temp = null;
             }
             try {
-                toParse = toParse.substring(end + 1);
+                toParse = toParse.substring(end);
             } catch (Exception e) {
                 break;
             }
         }
         
         for (int i = 0; i < output.length; i++) {
-            if (output[i] == null) output[i] = "0" + variable + "^" + i;
+            if (output[i] == null || output[i] == "") output[i] = "0" + variable + "^" + i;
+            if (output[i].indexOf("+") > -1) output[i] = output[i].replace("+", "");
         }
         
         return output;
