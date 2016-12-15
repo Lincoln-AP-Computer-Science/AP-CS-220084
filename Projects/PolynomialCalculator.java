@@ -8,6 +8,31 @@ public class PolynomialCalculator {
         pc.run();
     }
     
+    public String[] matchDegree(String[] poly, String[] toMatch) {
+        if (toMatch.length > poly.length) {
+            int toAdd = toMatch.length - poly.length;
+            char variable = 'x';
+            String[] temp = new String[toMatch.length];
+            for (int i = poly.length - 1; i >= 0; i--) {
+                temp[i + toAdd] = poly[i];
+            }
+            while (true) {
+                int caret = toMatch[0].indexOf('^');
+                if (caret > 0) {
+                    variable = toMatch[0].charAt(caret - 1);
+                } else {
+                    break;
+                }
+            }
+            for (int i = 0; i < temp.length; i++) {
+                if (temp[i] == null || temp[i] == "") temp[i] = "0" + variable + "^" + i;
+            }
+            return temp;
+        } else {
+            return poly;
+        }
+    }
+    
     public int[] add(int[] poly1, int[] poly2) {
         int[] output = new int[poly1.length];
         for (int i = 0; i < output.length; i++) {
@@ -102,18 +127,17 @@ public class PolynomialCalculator {
         operator = sc.next();
         
         if (parsed1.length > parsed2.length) {
-            String[] temp = new String[parsed1.length];
-            for (int i = 0; i < parsed2.length; i++) {
-                
-            }
+            matchDegree(parsed2, parsed1);
         } else if (parsed2.length > parsed1.length) {
-        
+            matchDegree(parsed1, parsed2);
         }
         
         for (int i = parsed1.length - 1; i >= 0; i--) {
             System.out.print("(" + parsed1[i] + ")");
             if (i > 0) System.out.print(" + ");
         }
+        
+        System.out.print(" " + operator + " ");
         
         for (int i = parsed2.length - 1; i >= 0; i--) {
             System.out.print("(" + parsed2[i] + ")");
