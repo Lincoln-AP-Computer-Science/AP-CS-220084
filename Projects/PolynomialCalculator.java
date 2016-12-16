@@ -10,19 +10,18 @@ public class PolynomialCalculator {
     
     public String[] matchDegree(String[] poly, String[] toMatch) {
         if (toMatch.length > poly.length) {
-            int toAdd = toMatch.length - poly.length;
             char variable = 'x';
             String[] temp = new String[toMatch.length];
-            for (int i = poly.length - 1; i >= 0; i--) {
-                temp[i + toAdd] = poly[i];
+            
+            String degreeOne = toMatch[toMatch.length - 2];
+            if (degreeOne.indexOf('^') != -1) {
+                variable = degreeOne.charAt(degreeOne.length() - 3);
+            } else {
+                variable = degreeOne.charAt(degreeOne.length() - 1);
             }
-            while (true) {
-                int caret = toMatch[0].indexOf('^');
-                if (caret > 0) {
-                    variable = toMatch[0].charAt(caret - 1);
-                } else {
-                    break;
-                }
+            
+            for (int i = poly.length - 1; i >= 0; i--) {
+                temp[i] = poly[i];
             }
             for (int i = 0; i < temp.length; i++) {
                 if (temp[i] == null || temp[i] == "") temp[i] = "0" + variable + "^" + i;
@@ -50,6 +49,7 @@ public class PolynomialCalculator {
     
     public String[] parse(String polynomial) {
         String[] output;
+        String[] ret;
         char variable = 'x';
         int caret = 0, degree = 0;
         String toParse = polynomial.replaceAll(" ", "");
@@ -58,7 +58,17 @@ public class PolynomialCalculator {
             temp = temp.substring(caret);
             caret = temp.indexOf('^');
             if (caret > 0) {
-                int currentDegree = Character.getNumericValue(toParse.charAt(caret + 1));
+                String tmp = toParse.substring(caret + 1);
+                int end;
+                if (tmp.indexOf('+') != -1) {
+                    end = tmp.indexOf('+');
+                } else if (tmp.indexOf('-') != -1) {
+                    end = tmp.indexOf('-');
+                } else {
+                    end = tmp.length();
+                }
+                
+                int currentDegree = Integer.parseInt(tmp.substring(0, end));
                 if (currentDegree > degree) degree = currentDegree;
                 variable = toParse.charAt(caret - 1);
             } else {
@@ -67,9 +77,9 @@ public class PolynomialCalculator {
             }
         }
         output = new String[degree + 1];
+        ret = new String[degree + 1];
         
         int start, end = 0, index = 0;
-        int counter = 0;
         boolean isNegative = false;
         while (toParse.length() > 0) {
             if (toParse.indexOf('+') > 0) {
@@ -81,23 +91,20 @@ public class PolynomialCalculator {
             }
             
             temp = toParse.substring(0, end);
-            for (int i = 2; i < degree + 1; i++) {
-                int tempDeg = Character.getNumericValue(temp.charAt(temp.indexOf('^') + 1));
-                if (temp.indexOf('^') > -1 && tempDeg == i) {
-                    output[i] = temp;
-                    temp = null;
-                }
-            }
-            if (temp != null) {
-                if (temp.indexOf(variable) > -1 && temp.indexOf('^') == -1) {
+            for (int i = 0; i < degree + 1; i++) {
+                if (temp.indexOf('^') != -1) {
+                    int tempDeg = Integer.parseInt(temp.substring(temp.indexOf('^') + 1));
+                    if (temp.indexOf('^') > -1 && tempDeg == i) {
+                        output[i] = temp;
+                    }
+                } else if (temp.indexOf(variable) > -1) {
                     output[1] = temp;
                 } else {
                     output[0] = temp;
                 }
-                temp = null;
             }
             try {
-                toParse = toParse.substring(end);
+                toParse = toParse.substring(end + 1);
             } catch (Exception e) {
                 break;
             }
@@ -126,22 +133,19 @@ public class PolynomialCalculator {
         System.out.println("Input the operator (*, /, +, -)");
         operator = sc.next();
         
-        if (parsed1.length > parsed2.length) {
-            matchDegree(parsed2, parsed1);
-        } else if (parsed2.length > parsed1.length) {
-            matchDegree(parsed1, parsed2);
-        }
+        parsed2 = matchDegree(parsed2, parsed1);
+        parsed1 = matchDegree(parsed1, parsed2);
         
-        for (int i = parsed1.length - 1; i >= 0; i--) {
+        for (int i = 0; i < parsed1.length; i++) {
             System.out.print("(" + parsed1[i] + ")");
-            if (i > 0) System.out.print(" + ");
+            if (i < parsed1.length - 1) System.out.print(" + ");
         }
         
         System.out.print(" " + operator + " ");
         
-        for (int i = parsed2.length - 1; i >= 0; i--) {
+        for (int i = 0; i < parsed2.length; i++) {
             System.out.print("(" + parsed2[i] + ")");
-            if (i > 0) System.out.print(" + ");
+            if (i < parsed2.length - 1) System.out.print(" + ");
         }
     }
 }
