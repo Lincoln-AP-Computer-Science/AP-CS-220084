@@ -13,61 +13,103 @@ public class Magpie {
         if (input.length() <= 0) {
             return "Say something, please.";
         }
-        if (haskw(input, "no")) {
-            return "Why so negative?";
-        } else if (haskw(input, "mother")
-                || haskw(input, "father")
-                || haskw(input, "sister")
-                || haskw(input, "brother")) {
-            return "Tell me more about your family.";
-        } else if (haskw(input, "dog") 
-                || haskw(input, "cat")) {
-            return "Tell me more about your pets.";
-        } else if (haskw(input, "ms. reid")
-                || haskw(input, "ms. robey")
-                || haskw(input, "mr. kappia")
-                || haskw(input, "mr. macko")
-                || haskw(input, "mr. chen")
-                || haskw(input, "srta. barragan")
-                || haskw(input, "ms. barragan")) {
-            return "That sounds like a great teacher.";
-        } else if (haskw(input, "meet you") 
-                || haskw(input, "you're welcome")) {
-            return "Thank you.";
-        } else if (haskw(input, "thank you")
-                || haskw(input, "thanks")) {
-            return "You're welcome.";
-        } else if (haskw(input, " programming")) {
-            return "My creator loves to program!";
-        } else if (haskw(input, "artificial intelligence")) {
-            return "I am artificial intelligence. Not very intelligent, but still...";
-        } else {
-            return getRandomResponse();
+        
+        String[][] res = {
+                {"hello", "hey", "hi", "sup", "heyo", "greetings", "salutations"},
+                {"no", "not"},
+                {"mother", "father", "sister", "brother"},
+                {"dog", "cat"},
+                {"ms. reid", "mrs. reid", "ms. robey", "srta. barragan", "ms. barragan"},
+                {"mr. kappia", "mr. macko", "mr. chen"},
+                {"nice to meet you"},
+                {"you're welcome", "say thank you"},
+                {"thank you", "thanks"},
+                {"ai", "artificial intelligence"}
+        };
+        
+        String[] ans = {
+                "Hello!",
+                "Why so negative?",
+                "Tell me more about your family.",
+                "Tell me more about your pets.",
+                "She sounds like a good teacher.",
+                "He sounds like a good teacher.",
+                "Nice to meet you too.",
+                "Thank you.",
+                "You're welcome.",
+                "I am artificial intelligence. Not very intelligent, but still..."
+        };
+        
+        for (int i = 0; i < res.length; i++) {
+            for (int j = 0; j < res[i].length; j++) {
+                if (haskw(input, res[i][j])) {
+                    return ans[i];
+                }
+            }
         }
+        
+        if (haskw(input, "i") && haskw(input, "you", findKeyword(input, "you", 0))) {
+            return handleIYou(input);
+        }
+        
+        return getRandomResponse();
+    }
+    
+    private String handleIYou(String input) {
+        String lastChar = input.substring(input.length() - 1);
+        if (lastChar.equals(".")) {
+            input = input.substring(0, input.length() - 1);
+        }
+        
+        int posI = findKeyword(input, "i", 0);
+        int posYou = findKeyword(input, "you", posI);
+        String filler = input.substring(posI + 1, posYou).trim();
+        return "Why do you " + filler + "me?";
     }
     
     private boolean haskw(String toSearch, String kw) {
-        return toSearch.indexOf(kw) >= 0;
+        return findKeyword(toSearch, kw, 0) >= 0;
+    }
+    
+    private boolean haskw(String toSearch, String kw, int pos) {
+        return findKeyword(toSearch, kw, pos) >= 0;
     }
     
     private int findKeyword(String input, String goal, int startPos) {
-        String phrase = input.trim().toLowerCase();
         goal = goal.toLowerCase();
-        int psn = phrase.indexOf(goal, startPos);
+        int pos = input.indexOf(goal, startPos);
+        
+        while (pos >= 0) {
+            String before = new String(), after = new String();
+            
+            if (pos > 0) {
+                before = input.substring(pos - 1, pos);
+            }
+            if (pos + goal.length() < input.length()) {
+                after = input.substring(pos + goal.length(), pos + goal.length() + 1);
+            }
+            
+            if ((before.compareTo("a") < 0 || before.compareTo("z") > 0)
+                    && (after.compareTo("a") < 0 || after.compareTo("z") > 0)) {
+                return pos;
+            }
+            pos = input.indexOf(goal, pos + 1);
+        }
+        
+        return -1;
     }
    
     private String getRandomResponse() {
-        final int NUM_RESPONSES = 6;
-        int response = (int)(Math.random() * (NUM_RESPONSES - 1));
-
-        switch(response) {
-            case 0: return "Interesting, tell me more.";
-            case 1: return "Hmmm.";
-            case 2: return "Do you really think so?"; 
-            case 3: return "You don't say.";
-            case 4: return "I see.";
-            case 5: return "Cool.";
-            default: return "tHerE iS soMEthInG wRoNg witH MY coDE";
-        }
+        int response = (int)(Math.random() * (randResponses.length - 1));
+        return randResponses[response];
     }
+    
+    private String[] randResponses = {
+            "Interesting, tell me more.",
+            "Hmmm.",
+            "Do you really think so?",
+            "You don't say.",
+            "I see.",
+            "Cool."
+    };
 }
