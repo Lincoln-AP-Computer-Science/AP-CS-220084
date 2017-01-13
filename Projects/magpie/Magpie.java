@@ -31,7 +31,7 @@ public class Magpie {
                 || haskw(input, "srta. barragan")
                 || haskw(input, "ms. barragan")) {
             return "That sounds like a great teacher.";
-        } else if (haskw(input, "meet you")
+        } else if (haskw(input, "meet you") 
                 || haskw(input, "you're welcome")) {
             return "Thank you.";
         } else if (haskw(input, "thank you")
