@@ -10,6 +10,13 @@ public class Magpie {
    
     public String getResponse(String input) {
         input = input.trim().toLowerCase();
+        
+        String lastChar = input.substring(input.length() - 1);
+        while (lastChar.equals(".") || lastChar.equals("?") || lastChar.equals("!")) {
+            input = input.substring(0, input.length() - 1).trim();
+            lastChar = input.substring(input.length() - 1);
+        }
+        
         if (input.length() <= 0) {
             return "Say something, please.";
         }
@@ -24,7 +31,8 @@ public class Magpie {
                 {"nice to meet you"},
                 {"you're welcome", "say thank you"},
                 {"thank you", "thanks"},
-                {"ai", "artificial intelligence"}
+                {"ai", "artificial intelligence"},
+                {"because"}
         };
         
         String[] ans = {
@@ -37,7 +45,8 @@ public class Magpie {
                 "Nice to meet you too.",
                 "Thank you.",
                 "You're welcome.",
-                "I am artificial intelligence. Not very intelligent, but still..."
+                "I am artificial intelligence. Not very intelligent, but still...",
+                "Thank you for telling me why"
         };
         
         for (int i = 0; i < res.length; i++) {
@@ -48,7 +57,11 @@ public class Magpie {
             }
         }
         
-        if (haskw(input, "i") && haskw(input, "you", findKeyword(input, "you", 0))) {
+        if (haskw(input, "you are")) {
+            return handleYouAre(input);
+        }
+        
+        if (haskw(input, "i") && haskw(input, "you", findKeyword(input, "i", 0))) {
             return handleIYou(input);
         }
         
@@ -56,15 +69,16 @@ public class Magpie {
     }
     
     private String handleIYou(String input) {
-        String lastChar = input.substring(input.length() - 1);
-        if (lastChar.equals(".")) {
-            input = input.substring(0, input.length() - 1);
-        }
-        
         int posI = findKeyword(input, "i", 0);
         int posYou = findKeyword(input, "you", posI);
         String filler = input.substring(posI + 1, posYou).trim();
-        return "Why do you " + filler + "me?";
+        return "Why do you " + filler + " me?";
+    }
+    
+    private String handleYouAre(String input) {
+        int pos = findKeyword(input, "you are", 0);
+        String filler = input.substring(pos + 7).trim();
+        return "Why do you think I am " + filler + "?";
     }
     
     private boolean haskw(String toSearch, String kw) {
