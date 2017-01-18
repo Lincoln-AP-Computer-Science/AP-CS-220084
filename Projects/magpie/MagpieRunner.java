@@ -11,8 +11,10 @@ public class MagpieRunner {
         System.out.println (maggie.getGreeting(name));
         input = sc.nextLine();
 
-        while (!input.equals("Bye")) {
-            System.out.println (maggie.getResponse(input));
+        while (!input.toLowerCase().equals("bye")) {
+            if (!input.equals("")) {
+                System.out.println(maggie.getResponse(input));
+            }
             input = sc.nextLine();
         }
         System.out.println("Goodbye!");
