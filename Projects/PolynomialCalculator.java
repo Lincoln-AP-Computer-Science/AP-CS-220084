@@ -118,11 +118,22 @@ public class PolynomialCalculator {
         return output;
     }
     
+    public int getInt(String num) {
+        String tmp = num;
+        int tmpix = tmp.indexOf('x');
+        if (tmpix > -1) {
+            return Character.getNumericValue(tmp.charAt(tmpix - 1));
+        } else {
+            return Integer.parseInt(tmp);
+        }
+    }
+    
     public void run() {
         Scanner sc = new Scanner(System.in);
         String poly1, poly2;
         String operator;
         String[] parsed1, parsed2;
+        int[] numeric1, numeric2;
         
         System.out.println("Input the first polynomial:");
         poly1 = sc.nextLine();
@@ -136,16 +147,29 @@ public class PolynomialCalculator {
         parsed2 = matchDegree(parsed2, parsed1);
         parsed1 = matchDegree(parsed1, parsed2);
         
-        for (int i = 0; i < parsed1.length; i++) {
+        numeric1 = new int[parsed1.length];
+        numeric2 = new int[parsed2.length];
+        
+        for (int i = parsed1.length - 1, j = 0; i >= 0 && j < numeric1.length; i--, j++) {
             System.out.print("(" + parsed1[i] + ")");
-            if (i < parsed1.length - 1) System.out.print(" + ");
+            numeric1[j] = getInt(parsed1[i]);
+            if (i > 0) System.out.print(" + ");
         }
         
         System.out.print(" " + operator + " ");
         
-        for (int i = 0; i < parsed2.length; i++) {
+        for (int i = parsed2.length - 1, j = 0; i >= 0 && j < numeric2.length; i--, j++) {
             System.out.print("(" + parsed2[i] + ")");
-            if (i < parsed2.length - 1) System.out.print(" + ");
+            numeric2[j] = getInt(parsed2[i]);
+            if (i > 0) System.out.print(" + ");
+        }
+
+        
+        System.out.println();
+        
+        if (operator.equals("+")) {
+            int[] tmp = (add(numeric1, numeric2));
+            for (int n : tmp) { System.out.print(n); }
         }
     }
 }
