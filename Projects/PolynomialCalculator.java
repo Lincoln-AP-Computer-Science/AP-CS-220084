@@ -1,6 +1,7 @@
 import java.util.*;
 
 public class PolynomialCalculator {
+    public String variable = "x";
     
     public static void main(String[] args) {
         PolynomialCalculator pc = new PolynomialCalculator();
@@ -8,16 +9,23 @@ public class PolynomialCalculator {
         pc.run();
     }
     
+    public String[] toPolynomial(int[] nums) {
+        String[] output = new String[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            output[i] = nums[i] + variable + "^" + (nums.length - 1 - i);
+        }
+        return output;
+    }
+    
     public String[] matchDegree(String[] poly, String[] toMatch) {
         if (toMatch.length > poly.length) {
-            char variable = 'x';
             String[] temp = new String[toMatch.length];
             
             String degreeOne = toMatch[toMatch.length - 2];
             if (degreeOne.indexOf('^') != -1) {
-                variable = degreeOne.charAt(degreeOne.length() - 3);
+                variable = String.valueOf(degreeOne.charAt(degreeOne.length() - 3));
             } else {
-                variable = degreeOne.charAt(degreeOne.length() - 1);
+                variable = String.valueOf(degreeOne.charAt(degreeOne.length() - 1));
             }
             
             for (int i = poly.length - 1; i >= 0; i--) {
@@ -40,6 +48,10 @@ public class PolynomialCalculator {
         return output;
     }
     
+    public int[] add(String[] poly1, String[] poly2) {
+        return add(toInts(poly1), toInts(poly2));
+    }
+    
     public int[] subtract(int[] poly1, int[] poly2) {
         for (int i = 0; i < poly2.length; i++) {
             poly2[i] = -poly2[i];
@@ -47,10 +59,13 @@ public class PolynomialCalculator {
         return add(poly1, poly2);
     }
     
+    public int[] subtract(String[] poly1, String[] poly2) {
+        return subtract(toInts(poly1), toInts(poly2));
+    }
+    
     public String[] parse(String polynomial) {
         String[] output;
         String[] ret;
-        char variable = 'x';
         int caret = 0, degree = 0;
         String toParse = polynomial.replaceAll(" ", "");
         String temp = toParse;
@@ -70,7 +85,7 @@ public class PolynomialCalculator {
                 
                 int currentDegree = Integer.parseInt(tmp.substring(0, end));
                 if (currentDegree > degree) degree = currentDegree;
-                variable = toParse.charAt(caret - 1);
+                variable = String.valueOf(toParse.charAt(caret - 1));
             } else {
                 if (toParse.indexOf(variable) > -1 && degree == 0) degree = 1;
                 break;
@@ -115,61 +130,73 @@ public class PolynomialCalculator {
             if (output[i].indexOf("+") > -1) output[i] = output[i].replace("+", "");
         }
         
+        for (int i = 0; i < output.length; i++) {
+            if (output[i].indexOf(variable + "^0") > -1) {
+                output[i] = output[i].substring(0, output[i].indexOf(variable + "^0"));
+            }
+            if (output[i].indexOf(variable + "^1") > -1) {
+                output[i] = output[i].substring(0, output[i].indexOf("^1"));
+            }
+        }
+        
+        return output;
+    }
+    
+    public int[] toInts(String[] poly) {
+        int[] output = new int[poly.length];
+        for (int i = poly.length - 1, j = 0; i >= 0 && j < output.length; i--, j++) {
+            output[(poly.length - 1) - i] = getInt(poly[i]);
+        }
         return output;
     }
     
     public int getInt(String num) {
         String tmp = num;
-        int tmpix = tmp.indexOf('x');
+        int tmpix = tmp.indexOf(variable);
         if (tmpix > -1) {
+            if (tmpix == 0) {
+                return 1;
+            }
             return Character.getNumericValue(tmp.charAt(tmpix - 1));
         } else {
             return Integer.parseInt(tmp);
         }
     }
     
+    public String formatPolynomial(String[] poly) {
+        String output = "(";
+        for (int i = 0; i < poly.length; i++) {
+            output += "(" + poly[i] + ")";
+            if (i < poly.length - 1) output += " + ";
+        }
+        return output + ")";
+    }
+    
+    public String formatPolynomial(int[] poly) {
+        return formatPolynomial(toPolynomial(poly));
+    }
+    
     public void run() {
         Scanner sc = new Scanner(System.in);
-        String poly1, poly2;
-        String operator;
-        String[] parsed1, parsed2;
-        int[] numeric1, numeric2;
+        String[] poly1, poly2;
+        char operator;
+        String answer = "";
         
         System.out.println("Input the first polynomial:");
-        poly1 = sc.nextLine();
-        parsed1 = parse(poly1);
+        poly1 = parse(sc.nextLine());
         System.out.println("Input the second polynomial:");
-        poly2 = sc.nextLine();
-        parsed2 = parse(poly2);
+        poly2 = parse(sc.nextLine());
         System.out.println("Input the operator (*, /, +, -)");
-        operator = sc.next();
+        operator = sc.next().charAt(0);
         
-        parsed2 = matchDegree(parsed2, parsed1);
-        parsed1 = matchDegree(parsed1, parsed2);
+        poly1 = matchDegree(poly1, poly2);
+        poly2 = matchDegree(poly2, poly1);
         
-        numeric1 = new int[parsed1.length];
-        numeric2 = new int[parsed2.length];
-        
-        for (int i = parsed1.length - 1, j = 0; i >= 0 && j < numeric1.length; i--, j++) {
-            System.out.print("(" + parsed1[i] + ")");
-            numeric1[j] = getInt(parsed1[i]);
-            if (i > 0) System.out.print(" + ");
+        switch (operator) {
+            case '+': answer = formatPolynomial(add(poly1, poly2));
+            case '-': answer = formatPolynomial(subtract(poly1, poly2));
         }
         
-        System.out.print(" " + operator + " ");
-        
-        for (int i = parsed2.length - 1, j = 0; i >= 0 && j < numeric2.length; i--, j++) {
-            System.out.print("(" + parsed2[i] + ")");
-            numeric2[j] = getInt(parsed2[i]);
-            if (i > 0) System.out.print(" + ");
-        }
-
-        
-        System.out.println();
-        
-        if (operator.equals("+")) {
-            int[] tmp = (add(numeric1, numeric2));
-            for (int n : tmp) { System.out.print(n); }
-        }
+        System.out.println(answer);
     }
 }
