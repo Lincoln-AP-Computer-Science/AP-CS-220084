@@ -92,6 +92,38 @@ public class Polynomial {
         this.set(index2, temp);
     }
     
+    private void insert(int index, Monomial value) {
+        this.setSize(this.getSize() + 1));
+        this.set(0, value);
+        this.move(0, index);
+    }
+    
+    private void move(int index1, int index2) {
+        Monomial temp = this.get(index1);
+        if (index1 > index2) {
+            for (int i = index1 - 1; i >= index2; i--) {
+                this.set(i + 1, this.get(i));
+            }
+        } else {
+            for (int i = index1; i < index2; i++) {
+                this.set(i, this.get(i + 1));
+            }
+        }
+        this.set(index2, temp);
+    }
+                 
+    private void sort() {
+        boolean hasSwapped = true;
+        while (hasSwapped) {
+            hasSwapped = false;
+            for (int i = 0; i < this.getSize() - 1; i++) {
+                if (this.get(i).getDegree() > this.get(i + 1).getDegree()) {
+                    hasSwapped = true;
+                    this.swap(i, i + 1);
+                }
+            }
+    }
+    
     private void parse(String input) {
         input = input.replaceAll("[ ()]", "");
         int[] operators = new int[input.length() - input.replaceAll("[+-]", "").length()];
@@ -115,6 +147,5 @@ public class Polynomial {
                 monomials[counter++] = new Monomial(input.substring(breaks[i - 1] + 1, breaks[i]));
             }
         }
-        for (Monomial m : monomials) System.out.println(m);
     }
 }
