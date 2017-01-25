@@ -86,42 +86,35 @@ public class Polynomial {
         this.polynomial = tmp.get();
     }
     
+    private void swap(int index1, int index2) {
+        Monomial temp = this.get(index1);
+        this.set(index1, index2);
+        this.set(index2, temp);
+    }
+    
     private void parse(String input) {
         input = input.replaceAll("[ ()]", "");
         int[] operators = new int[input.length() - input.replaceAll("[+-]", "").length()];
-        for (int i = 0, counter = 0; i < input.length(); i++) {
+        int[] breaks = new int[operators.length + 1];
+        breaks[breaks.length - 1] = input.length();
+        for (int i = 0, counter = 1; i < input.length(); i++) {
             if (input.charAt(i) == '+' || input.charAt(i) == '-') {
-                try {
-                    if (operators[counter - 1] != i + 1) {
+                if (counter > 0) {
+                    if (operators[counter - 1] != i - 1) {
+                        breaks[counter] = i;
                         operators[counter++] = i;
                     }
                 }
             }
         }
-        Monomial[] monomials = new Monomial[operators.length];
-        for (int i = 0, counter = 0; i < operators.length; i++) {
-            if (operators[i] != 0) {
-                //monomials[counter++] = new Monomial(input.substring(0, operators[i] + 1));
+        Monomial[] monomials = new Monomial[breaks.length - 1];
+        for (int i = 1, counter = 0; i < breaks.length; i++) {
+            if (breaks[i - 1] == 0) {
+                monomials[counter++] = new Monomial(input.substring(breaks[i - 1], breaks[i]));
+            } else {
+                monomials[counter++] = new Monomial(input.substring(breaks[i - 1] + 1, breaks[i]));
             }
         }
+        for (Monomial m : monomials) System.out.println(m);
     }
-    
-    // public void parseString(String input) {
-//         input = input.replaceAll(" ", "");
-//         int[] operators = new int[input.length() - input.replaceAll("[+-]", "").length()];
-//         for (int i = 0, counter = 0; i < input.length(); i++) {
-//             if (input.charAt(i) == '+' || input.charAt(i) == '-') {
-//                 operators[counter++] = i;
-//                 System.out.println(i);
-//             }
-//         }
-//         String[] monomials = new String[operators.length];
-//         for (int i = 0, counter = 0; i < operators.length; i++) {
-//             if (operators[i] != 0) {
-//                 monomials[counter++] = input.substring(0, operators[i] + 1);
-//                 System.out.println(input.substring(0, operators[i]));
-//                 // input = input.substring(operators[i]);
-//             }
-//         }
-//     }
 }
