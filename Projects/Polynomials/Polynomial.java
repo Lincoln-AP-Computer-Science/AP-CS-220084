@@ -11,15 +11,15 @@ public class Polynomial {
     }
     
     public Polynomial(Polynomial poly) {
-        this.size = poly.getSize();
         this.polynomial = poly.get();
-        this.variable = poly.getVariable();
+        this.setSize(poly.getSize());
+        this.setVariable(poly.getVariable());
     }
     
     public Polynomial(int size) {
-        this.size = size;
         this.polynomial = new Monomial[this.size];
-        this.variable = 'x';
+        this.setSize(size);
+        this.setVariable('x');
     }
     
     public Polynomial(String input) {
@@ -30,17 +30,14 @@ public class Polynomial {
         return this.polynomial;
     }
     
-    public int[] getInts() {
-        return new int[0]; // TODO
-    }
-    
     public Monomial get(int index) {
         if (index >= 0 && index < this.getSize()) {
             return this.polynomial[index];
         } else if (index >= -this.getSize() && index < 0) {
             return this.polynomial[this.getSize() + index];
+        } else {
+            return null;
         }
-        return null;
     }
     
     public void set(int index, Monomial value) {
@@ -86,14 +83,27 @@ public class Polynomial {
         this.polynomial = tmp.get();
     }
     
+    @Override
+    public String toString() {
+        String output = "";
+        for (int i = 0; i < this.getSize(); i++) {
+            if (i < this.getSize() - 1) {
+                output += "(" + this.get(i) + ") + ";
+            } else {
+                output += "(" + this.get(i) + ")";
+            }
+        }
+        return output;
+    }
+    
     private void swap(int index1, int index2) {
         Monomial temp = this.get(index1);
-        this.set(index1, index2);
+        this.set(index1, this.get(index2));
         this.set(index2, temp);
     }
     
     private void insert(int index, Monomial value) {
-        this.setSize(this.getSize() + 1));
+        this.setSize(this.getSize() + 1);
         this.set(0, value);
         this.move(0, index);
     }
@@ -111,23 +121,39 @@ public class Polynomial {
         }
         this.set(index2, temp);
     }
-                 
+    
     private void sort() {
         boolean hasSwapped = true;
         while (hasSwapped) {
             hasSwapped = false;
             for (int i = 0; i < this.getSize() - 1; i++) {
-                if (this.get(i).getDegree() > this.get(i + 1).getDegree()) {
+                if (this.get(i).getDegree() < this.get(i + 1).getDegree()) {
                     hasSwapped = true;
                     this.swap(i, i + 1);
                 }
             }
+        }
+        try {
+            this.setVariable(this.get(0).getVariable());
+        } catch (Exception e1) {
+            try {
+                this.setVariable(this.getVariable());
+            } catch (Exception e2) {
+                this.setVariable('x');
+            }
+        }
     }
     
     private void parse(String input) {
         input = input.replaceAll("[ ()]", "");
-        int[] operators = new int[input.length() - input.replaceAll("[+-]", "").length()];
-        int[] breaks = new int[operators.length + 1];
+        int size = 0;
+        for (int i = 0; i < input.length(); i++) {
+            if (input.charAt(i) == '+' || input.charAt(i) == '-') {
+                size++;
+            }
+        }
+        int[] operators = new int[size + 1];
+        int[] breaks = new int[size + 2];
         breaks[breaks.length - 1] = input.length();
         for (int i = 0, counter = 1; i < input.length(); i++) {
             if (input.charAt(i) == '+' || input.charAt(i) == '-') {
@@ -147,5 +173,9 @@ public class Polynomial {
                 monomials[counter++] = new Monomial(input.substring(breaks[i - 1] + 1, breaks[i]));
             }
         }
+        this.polynomial = monomials;
+        this.size = polynomial.length;
+        this.variable = polynomial[0].getVariable();
+        this.sort();
     }
 }
