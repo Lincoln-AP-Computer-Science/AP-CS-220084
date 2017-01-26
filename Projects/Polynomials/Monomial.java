@@ -56,7 +56,23 @@ public class Monomial {
         return this.coefficient < 0;
     }
     
-    @Override
+    public void add(Monomial mono) {
+        if (mono.getDegree() == this.getDegree()) {
+            this.setCoefficient(this.getCoefficient() + mono.getCoefficient());
+        }
+    }
+    
+    public void subtract(Monomial mono) {
+        if (mono.getDegree() == this.getDegree()) {
+            this.setCoefficient(this.getCoefficient() - mono.getCoefficient());
+        }
+    }
+    
+    public void multiply(Monomial mono) {
+        this.setCoefficient(this.getCoefficient() * mono.getCoefficient());
+        this.setDegree(this.getDegree() + mono.getDegree());
+    }
+    
     public String toString() {
         return this.coefficient + (this.variable + "^") + degree;
     }
