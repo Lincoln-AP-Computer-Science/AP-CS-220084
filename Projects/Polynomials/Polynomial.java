@@ -147,31 +147,51 @@ public class Polynomial {
     private void parse(String input) {
         input = input.replaceAll("[ ()]", "");
         int size = 0;
-        for (int i = 0; i < input.length(); i++) {
+        while (true) {
+            int temp = -1;
+            if (input.indexOf("+-") != -1) {
+                temp = input.indexOf("+-");
+                input = input.substring(0, temp) + "-" + input.substring(temp + 2);
+            } else if (input.indexOf("-+") != -1) {
+                temp = input.indexOf("-+");
+                input = input.substring(0, temp) + "-" + input.substring(temp + 2);
+            } else if (input.indexOf("--") != -1) {
+                temp = input.indexOf("--");
+                input = input.substring(0, temp) + "+" + input.substring(temp + 2);
+            } else if (input.indexOf("++") != -1) {
+                temp = input.indexOf("++");
+                input = input.substring(0, temp) + "+" + input.substring(temp + 2);
+            } else {
+                break;
+            }
+        }
+        for (int i = 1; i < input.length(); i++) {
             if (input.charAt(i) == '+' || input.charAt(i) == '-') {
                 size++;
             }
         }
+        System.out.println(input);
         int[] operators = new int[size + 1];
         int[] breaks = new int[size + 2];
         breaks[breaks.length - 1] = input.length();
         for (int i = 0, counter = 1; i < input.length(); i++) {
             if (input.charAt(i) == '+' || input.charAt(i) == '-') {
-                if (counter > 0) {
-                    if (operators[counter - 1] != i - 1) {
-                        breaks[counter] = i;
-                        operators[counter++] = i;
-                    }
+                if ((operators[counter - 1] != i - 1 || i - 1 == 0)) {
+                    breaks[counter] = i;
+                    operators[counter++] = i;
                 }
             }
         }
         Monomial[] monomials = new Monomial[breaks.length - 1];
         for (int i = 1, counter = 0; i < breaks.length; i++) {
-            if (breaks[i - 1] == 0) {
-                monomials[counter++] = new Monomial(input.substring(breaks[i - 1], breaks[i]));
-            } else {
-                monomials[counter++] = new Monomial(input.substring(breaks[i - 1] + 1, breaks[i]));
+            if (breaks[i - 1] <= breaks[i]) {
+                if (breaks[i - 1] == 0) {
+                    monomials[counter++] = new Monomial(input.substring(breaks[i - 1], breaks[i]));
+                } else {
+                    monomials[counter++] = new Monomial(input.substring(breaks[i - 1] + 1, breaks[i]));
+                }
             }
+            System.out.println(monomials[i - 1]);
         }
         this.polynomial = monomials;
         this.size = polynomial.length;
