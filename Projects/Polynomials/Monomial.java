@@ -1,8 +1,12 @@
 public class Monomial {
 
+    // INSTANCE VARIABLES
+
     private double coefficient;
     private char variable;
     private int degree;
+    
+    // CONSTRUCTORS
     
     public Monomial() {
         this.coefficient = 1;
@@ -19,6 +23,8 @@ public class Monomial {
     public Monomial(String input) {
         this.parse(input);
     }
+    
+    // PUBLIC METHODS
     
     public double getCoefficient() {
         return this.coefficient;
@@ -78,6 +84,9 @@ public class Monomial {
         this.setDegree(this.getDegree() - mono.getDegree());
     }
     
+    // OVERRIDE METHODS
+    
+    @Override
     public String toString() {
         String tempCoef = Double.toString(this.coefficient);
         if (tempCoef.substring(tempCoef.length() - 2).equals(".0")) {
@@ -85,6 +94,8 @@ public class Monomial {
         }
         return tempCoef + (this.variable + "^") + degree;
     }
+    
+    // PRIVATE METHODS
     
     private void parseCoefficient(String input, int caret) {
         String tempCoef = input.substring(0, caret - 1);
@@ -121,41 +132,39 @@ public class Monomial {
         input = input.replaceAll("[ +]", "").trim();
         int caret = input.indexOf('^');
         if (caret > -1) {
-            try {
-                this.variable = input.charAt(caret - 1);
-            } catch (Exception e) {
-                this.variable = 'x';
-            }
             
-            parseCoefficient(input, caret);
+            this.setVariable(input.charAt(caret - 1));
+            
+            this.parseCoefficient(input, caret);
                         
             try {
-                this.degree = Integer.parseInt(input.substring(caret + 1));
+                this.setDegree(Integer.parseInt(input.substring(caret + 1)));
             } catch (Exception e) {
                 if (input.charAt(caret - 1) >= 'a' && input.charAt(caret - 1) <= 'z') {
-                    this.degree = 1;
+                    this.setDegree(1);
                 } else {
-                    this.degree = 0;
+                    this.setDegree(1);
                 }
             }
         } else {
             boolean hasVar = false;
             for (int i = 0; i < input.length(); i++) {
                 if (input.charAt(i) >= 'a' && input.charAt(i) <= 'z') {
-                    this.variable = input.charAt(i);
-                    parseCoefficient(input, i);
+                    this.setVariable(input.charAt(i));
+                    
+                    this.parseCoefficient(input, i);
                                         
-                    this.degree = 1;
+                    this.setDegree(1);
                     
                     hasVar = true;
                 }
             }
             if (!hasVar) {
-                this.variable = 'x';
+                this.setVariable('x');
                 
                 parseCoefficient(input, input.length() + 1);
                 
-                this.degree = 0;
+                this.setDegree(0);
             }
         }
     }
