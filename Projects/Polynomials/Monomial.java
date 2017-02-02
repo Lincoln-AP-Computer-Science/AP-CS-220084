@@ -97,33 +97,59 @@ public class Monomial {
     
     // PRIVATE METHODS
     
+    private boolean isDouble(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
+    private boolean isInteger(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
     private void parseCoefficient(String input, int caret) {
         String tempCoef = input.substring(0, caret - 1);
         int divSign = tempCoef.indexOf("/");
-                    
-        try {
-            this.coefficient = Double.parseDouble(tempCoef);
-        } catch (Exception e1) {
-            try {
-                this.coefficient = (double) Integer.parseInt(tempCoef);
-            } catch (Exception e2) {
-                this.coefficient = 1;
-            }
-        }
         
         if (divSign != -1) {
-            try {
-                double left = Double.parseDouble(tempCoef.substring(0, divSign));
-                double right = Double.parseDouble(tempCoef.substring(divSign + 1));
-                this.coefficient = left / right;
-            } catch (Exception e1) {
-                try {
-                    double left = (double) Integer.parseInt(tempCoef.substring(0, divSign));
-                    double right = (double) Integer.parseInt(tempCoef.substring(divSign + 1));
-                    this.coefficient = left / right;
-                } catch (Exception e2) {
-                    this.coefficient = 1;
-                }
+            String left = tempCoef.substring(0, divSign);
+            String right = tempCoef.substring(divSign + 1);
+            double l, r;
+            if (this.isDouble(left)) {
+                l = Double.parseDouble(left);
+            } else if (this.isInteger(left)) {
+                l = (double) Integer.parseInt(left);
+            } else {
+                l = 1;
+            }
+            
+            if (this.isDouble(right)) {
+                r = Double.parseDouble(right);
+            } else if (this.isInteger(right)) {
+                r = (double) Integer.parseInt(right);
+            } else {
+                r = 1;
+            }
+            
+            this.coefficient = l / r;
+        } else {
+            if (this.isDouble(tempCoef)) {
+                this.coefficient = Double.parseDouble(tempCoef);
+                return;
+            } else if (this.isInteger(tempCoef)) {
+                this.coefficient = (double) Integer.parseInt(tempCoef);
+                return;
+            } else {
+                this.coefficient = 1;
+                return;
             }
         }
     }
@@ -152,7 +178,7 @@ public class Monomial {
                 if (input.charAt(i) >= 'a' && input.charAt(i) <= 'z') {
                     this.setVariable(input.charAt(i));
                     
-                    this.parseCoefficient(input, i);
+                    this.parseCoefficient(input, i + 1);
                                         
                     this.setDegree(1);
                     
