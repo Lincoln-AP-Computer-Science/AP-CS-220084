@@ -40,4 +40,11 @@ public class Dessert {
     public void setCalories(int calories) {
         if (calories > 0) this.calories = calories;
     }
+    
+    @Override
+    public String toString() {
+        return "Price: " + Double.toString(this.price)
+            + "\nWeight: " + Double.toString(this.weight)
+            + "\nCalories: " + Double.toString(this.calories); 
+    }
 }
