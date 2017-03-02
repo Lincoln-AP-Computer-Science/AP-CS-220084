@@ -1,69 +1,125 @@
-// Stores 2 related variables as 1 object for accessibility
+/**
+ * 2-Value Vector Object.
+ *
+ * <P>Used to store 2 related values.
+ *
+ * <P>Commonly used, but not limited to, storing points
+ */
 public class Vector2 {
-    // === PROTECTED VARIABLES === \\
     
-    protected int x, y;
+    protected double x, y;
     
-    // === PUBLIC CONSTRUCTORS === \\
-    
-    // Default constructor
-    public Vector2 () {
+    /** Constructor. */
+    public Vector2() {
         this.x = 0;
         this.y = 0;
     }
     
-    public Vector2 (int x, int y) {
+    /**
+     * Constructor.
+     *
+     * @param x an int to define the x-value of the vector
+     * @param y an int to define the y-value of the vector
+     */
+    public Vector2(int x, int y) {
+        this.x = (double) x;
+        this.y = (double) y;
+    }
+    
+    /**
+     * Constructor.
+     *
+     * @param x a double to define the x-value of the vector
+     * @param y a double to define the y-value of the vector
+     */
+    public Vector2(double x, double y) {
         this.x = x;
         this.y = y;
     }
     
-    // === PUBLIC METHODS === \\
-    
-    // Sets the X value and returns the new value
-    public int setX (int x) {
+    /**
+     * Set the x-value.
+     *
+     * @param x a double to define the x-value of the vector
+     * @return  the new x-value
+     */
+    public double setX(double x) {
         this.x = x;
         return this.x;
     }
     
-    // Sets the Y value and returns the new value
-    public int setY (int y) {
+    /**
+     * Set the x-value.
+     *
+     * @param x a double to define the x-value of the vector
+     * @return  the new x-value
+     * @see     #setX(double)
+     */
+    public double setX(int x) {
+        return this.setX((double) x);
+    }
+    
+    /**
+     * Set the y-value.
+     *
+     * @param y a double to define the y-value of the vector
+     * @return  the new y-value
+     */
+    public double setY(double y) {
         this.y = y;
         return this.y;
     }
     
-    // Checks if the X values are equivalent
-    public boolean equalsX (Vector2 v) {
+    /**
+     * Set the y-value.
+     *
+     * @param y a double to define the y-value of the vector
+     * @return  the new y-value
+     * @see     #setY(double)
+     */
+    public double setY(int y) {
+        return this.setY((double) y);
+    }
+    
+    /** 
+     * Compare the x-value of another Vector2.
+     *
+     * @param v the vector2 to compare x-values
+     * @return  true if the x-values are equivalent
+     */
+    public boolean equalsX(Vector2 v) {
         return this.x == v.x;
     }
     
-    // Checks if the Y values are equivalent
-    public boolean equalsY (Vector2 v) {
+    /** 
+     * Compare the y-value of another Vector2.
+     *
+     * @param v the vector2 to compare y-values
+     * @return  true if the y-values are equivalent
+     */
+    public boolean equalsY(Vector2 v) {
         return this.y == v.y;
     }
     
     // Makes printed instance easily readable
     @Override
-    public String toString () {
+    public String toString() {
         return "(" + this.x + ", " + this.y + ")";
     }
     
     // To allow object comparison; must be Object argument to override
     @Override
-    public boolean equals (Object o) {
-        // Check if Object o is the same instance
+    public boolean equals(Object o) {
         if (o == this) {
             return true;
         }
         
-        // Check if Object o is the same type
         if (!(o instanceof Vector2)) {
             return false;
         }
         
-        // Typecast to compare data members
         Vector2 v = (Vector2) o;
         
-        // Make necessary comparisons
         return this.equalsX(v) && this.equalsY(v);
     }
 }
