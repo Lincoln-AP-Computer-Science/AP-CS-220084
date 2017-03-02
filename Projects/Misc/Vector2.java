@@ -53,7 +53,7 @@ public class Vector2 {
      *
      * @param x a double to define the x-value of the vector
      * @return  the new x-value
-     * @see     #setX(double)
+     * @see     #setX(double x)
      */
     public double setX(int x) {
         return this.setX((double) x);
@@ -75,7 +75,7 @@ public class Vector2 {
      *
      * @param y a double to define the y-value of the vector
      * @return  the new y-value
-     * @see     #setY(double)
+     * @see     #setY(double y)
      */
     public double setY(int y) {
         return this.setY((double) y);
@@ -101,13 +101,23 @@ public class Vector2 {
         return this.y == v.y;
     }
     
-    // Makes printed instance easily readable
+    /**
+     * Converts the vector to a String.
+     *
+     * @return  the vector as a string
+     * @see     Object#toString()
+     */
     @Override
     public String toString() {
         return "(" + this.x + ", " + this.y + ")";
     }
     
-    // To allow object comparison; must be Object argument to override
+    /**
+     * Allows comparison of another Vector2
+     *
+     * @return  true of the data values are equivalent
+     * @see     Object#equals(Object)
+     */
     @Override
     public boolean equals(Object o) {
         if (o == this) {
