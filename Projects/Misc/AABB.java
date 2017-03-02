@@ -1,31 +1,39 @@
-// Axis-Aligned Bounding Box
+/**
+ * Axis-Aligned Bounding Box
+ *
+ * <P>Rectangular bounding box to handle collisions and other conditionals
+ *
+ * @author Chai Nunes
+ * @version 1.0
+ */
 public class AABB {
-    // === PROTECTED VARIABLES === \\
     
     protected Vector2 min, max;
     
-    // === PUBLIC CONSTRUCTORS === \\
-    
-    // Default constructor
+    /** Default Constructor. */
     public AABB () {
         this.min = new Vector2();
         this.max = new Vector2();
     }
     
-    // Vector2, Vector2 constructor
+    /**
+     * 
+     */
     public AABB (Vector2 min, Vector2 max) {
         this.min = min;
         this.max = max;
     }
     
-    // int, int, int, int constructor
-    public AABB (int xMin, int yMin, int xMax, int yMax) {
+    // double, double, double, double constructor
+    // Initializes with minimum and maximum points as ints
+    public AABB (double xMin, double yMin, double xMax, double yMax) {
         this.min = new Vector2(xMin, yMin);
         this.max = new Vector2(xMax, yMax);
     }
     
-    // Vector2, int, int constructor
-    public AABB (Vector2 center, int width, int height) {
+    // Vector2, double, double constructor
+    // Initializes with position and size
+    public AABB (Vector2 center, double width, double height) {
         this.min = new Vector2(center.x - (width / 2),
                 center.y - (height / 2));
         this.max = new Vector2(center.x + (width / 2 + width % 2),
