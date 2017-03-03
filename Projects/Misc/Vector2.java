@@ -28,6 +28,64 @@ public class Vector2 {
         this.x = x;
         this.y = y;
     }
+    
+    /** 
+     * Compare the x-value of two Vector2 instances.
+     *
+     * @param v1    the first Vector2 instance to compare x-values
+     * @param v2    the second Vector2 instance to compare x-values
+     * @return      true if the x-values are equivalent
+     */
+    public static boolean equalsX(Vector2 v1, Vector2 v2) {
+        return (v1 instanceof Vector2 && v2 instanceof Vector2) && (v1.x == v2.x);
+    }
+   
+    /** 
+     * Compare the y-value of two Vector2 instances.
+     *
+     * @param v1    the first Vector2 instance to compare y-values
+     * @param v2    the second Vector2 instance to compare y-values
+     * @return      true if the y-values are equivalent
+     */
+    public static boolean equalsY(Vector2 v1, Vector2 v2) {
+        return (v1 instanceof Vector2 && v2 instanceof Vector2) && (v1.y == v2.y);
+    }
+    
+    /**
+     * Get a Vector2 with the smallest values of two Vector2 instances.
+     *
+     * @param v1    the first Vector2 instance to compare values
+     * @param v2    the second Vector2 instance to compare values
+     * @return      a new Vector2 instance with the smallest values
+     */
+    public static Vector2 smallest(Vector2 v1, Vector2 v2) {
+        if (!(v1 instanceof Vector2 && v2 instanceof Vector2)) {
+            return new Vector2();
+        }
+        
+        double x = (v1.x <= v2.x) ? v1.x : v2.x;
+        double y = (v1.y <= v2.y) ? v1.y : v2.y;
+        
+        return new Vector2(x, y);
+    }
+    
+    /**
+     * Get a Vector2 with the largest values of two Vector2 instances.
+     *
+     * @param v1    the first Vector2 instance to compare values
+     * @param v2    the second Vector2 instance to compare values
+     * @return      a new Vector2 instance with the largest values
+     */
+    public static Vector2 largest(Vector2 v1, Vector2 v2) {
+        if (!(v1 instanceof Vector2 && v2 instanceof Vector2)) {
+            return new Vector2();
+        }
+        
+        int x = (v1.x >= v2.x) ? v1.x : v2.x;
+        int y = (v1.y >= v2.y) ? v1.y : v2.y;
+        
+        return new Vector2(x, y);
+    }
    
     /**
      * Set the x-value.
@@ -50,47 +108,6 @@ public class Vector2 {
         this.y = y;
         return this.y;
     }
-   
-    /** 
-     * Compare the x-value of two Vector2 instances.
-     *
-     * @param v1    the first Vector2 instance to compare x-values
-     * @param v2    the second Vector2 instance to compare x-values
-     * @return      true if the x-values are equivalent
-     */
-    public static boolean equalsX(Vector2 v1, Vector2 v2) {
-        return (v1 instanceof Vector2 && v2 instanceof Vector2) && (v1.x == v2.x);
-    }
-   
-    /** 
-     * Compare the y-value of two Vector2 instances.
-     *
-     * @param v1    the first Vector2 instance to compare y-values
-     * @param v2    the second Vector2 instance to compare y-values
-     * @return      true if the y-values are equivalent
-     */
-    public static boolean equalsY(Vector2 v1, Vector2 v2) {
-        return (v1 instanceof Vector2 && v2 instanceof Vector2) && (v1.y == v2.y);
-    }
-   
-   
-    /**
-     * Get a Vector2 with the smallest values of two Vector2 instances.
-     *
-     * @param v1    the first Vector2 instance to compare values
-     * @param v2    the second Vector2 instance to compare values
-     * @return      a new Vector2 instance with the smallest values
-     */
-    public static Vector2 smallest(Vector2 v1, Vector2 v2) {
-        if (!(v1 instanceof Vector2 && v2 instanceof Vector2)) {
-            return new Vector2();
-        }
-        
-        double x = (v1.x <= v2.x) ? v1.x : v2.x;
-        double y = (v1.y <= v2.y) ? v1.y : v2.y;
-        
-        return new Vector2(x, y);
-    }
     
     /**
      * Get a Vector2 with the smallest values with another Vector2
@@ -101,24 +118,6 @@ public class Vector2 {
      */
     public Vector2 smallest(Vector2 v) {
         return smallest(this, v);
-    }
-   
-    /**
-     * Get a Vector2 with the largest values of two Vector2 instances.
-     *
-     * @param v1    the first Vector2 instance to compare values
-     * @param v2    the second Vector2 instance to compare values
-     * @return      a new Vector2 instance with the largest values
-     */
-    public static Vector2 largest(Vector2 v1, Vector2 v2) {
-        if (!(v1 instanceof Vector2 && v2 instanceof Vector2)) {
-            return new Vector2();
-        }
-        
-        int x = (v1.x >= v2.x) ? v1.x : v2.x;
-        int y = (v1.y >= v2.y) ? v1.y : v2.y;
-        
-        return new Vector2(x, y);
     }
    
     /**
