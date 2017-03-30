@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.geom.*;
 
 public class Grid extends JPanel {
@@ -31,34 +30,6 @@ public class Grid extends JPanel {
             }
         }
         
-        addMouseMotionListener(new MouseMotionAdapter() {
-            public void mouseMoved(MouseEvent e) {
-                repaint();
-            }
-        });
-        
         setPreferredSize(new Dimension(this.width, this.height));
-    }
-    
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
-        
-        for (Cell[] row : cells) {
-            for (Cell cell : row) {
-                g.setColor(new Color(0, 0, 0));
-                g2.draw(cell);
-                if (cell.contains(subtract(MouseInfo.getPointerInfo().getLocation(), this.getLocationOnScreen()))) {
-                    g.setColor(new Color(128, 128, 128));
-                } else {
-                    g.setColor(new Color(255, 255, 255));
-                }
-                g2.fill(cell);
-            }
-        }
-    }
-    
-    private Point subtract(Point p1, Point p2) {
-        return new Point(p1.x - p2.x, p1.y - p2.y);
     }
 }
