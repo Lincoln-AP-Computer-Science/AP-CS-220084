@@ -7,7 +7,7 @@ public class Conway {
         Grid grid = new Grid(800, 600, 10);
         
         conway.add(grid);
-        grid.repaint();
+        conway.repaint();
         
         conway.pack();
         conway.setResizable(false);
